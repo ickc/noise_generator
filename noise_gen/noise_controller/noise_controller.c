@@ -11,7 +11,7 @@ struct noise_struct {
   int next;
 } data;
 
-int noise_type = 0;
+int _noise_type = 0;
 
 static float get_noise(int type){
   switch (type)
@@ -46,7 +46,7 @@ static int paCallback( const void *inputBuffer,
     if (data->next >= TABLE_SIZE){
       data->next -= TABLE_SIZE;
       for (int i = 0; i < TABLE_SIZE; i++) {
-		      data->noise[i] = get_noise(noise_type);
+		      data->noise[i] = get_noise(_noise_type);
 	    }
     }
   }
@@ -68,9 +68,9 @@ init_noise_controller(PaStreamParameters *outputParameters, int noise)
     Pa_GetDeviceInfo( outputParameters->device )->defaultLowOutputLatency;
   outputParameters->hostApiSpecificStreamInfo = NULL;
 
-  noise_type = noise;
+  _noise_type = noise;
   for (int i = 0; i < TABLE_SIZE; i++) {
-		data.noise[i] = get_noise(noise_type);
+		data.noise[i] = get_noise(_noise_type);
 	}
 	/* Initialize user data */
 	data.next = 0;
