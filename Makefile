@@ -10,6 +10,9 @@
 # 'make clean_all'  	removes all .o and executable files
 #
 
+# define PREFIX directory where PortAudio resides
+PREFIX ?= /opt/noise_generator
+
 # define C compiler to use
 CC = gcc
 
@@ -42,10 +45,10 @@ ifeq ($(OS),Windows_NT)
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
-		OSFLAG += /usr/local/lib/libportaudio.a -lrt -lm -lasound -ljack
+		OSFLAG += $(PREFIX)/lib/libportaudio.a -lrt -lm -lasound -ljack
 	endif
 	ifeq ($(UNAME_S),Darwin)
-		OSFLAG += /usr/local/opt/portaudio/lib/libportaudio.a  -framework CoreServices -framework CoreFoundation -framework AudioUnit -framework AudioToolbox -framework CoreAudio
+		OSFLAG += $(PREFIX)/lib/libportaudio.a  -framework CoreServices -framework CoreFoundation -framework AudioUnit -framework AudioToolbox -framework CoreAudio
 	endif
 		UNAME_P := $(shell uname -p)
 	ifeq ($(UNAME_P),x86_64)
